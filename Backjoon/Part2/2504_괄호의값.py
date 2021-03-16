@@ -1,3 +1,4 @@
+# 스택의 응용
 bracket = list(input())
 
 def isBracket(bracket):
