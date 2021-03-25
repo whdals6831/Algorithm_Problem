@@ -18,7 +18,7 @@ def reduce_num_check(n):
             before = int(v)
         elif len(str(n))-1 >= i+1 and int(v) > int(str(n)[i+1]):
             # 뒷자리 수가 앞자리 수보다 크면 앞자리 수를 1 올려줌
-            # git test4
+            # git test5
             m -= m % (10**(len(str(n))-i-1))
             m += 10**(len(str(n))-i-1)
             return 0
