@@ -23,6 +23,7 @@ def dijkstra(start_city):
     while heap:
         now_value, now_edge = heappop(heap)
 
+        # 중복된 출발지와 도착지 값에 대해서 기존보다 값이 크면 pass
         if now_value > value[now_edge]:
             continue
 
