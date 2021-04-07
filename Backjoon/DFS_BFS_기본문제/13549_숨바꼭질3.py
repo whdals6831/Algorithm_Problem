@@ -23,7 +23,7 @@ while q:
                     visit[i] = visit[now_n]
                 q.append(i)
             else:
-                if i != now_n*2:
+                if i != now_n*2: # now_n*2가 0초가 걸리기 때문에 더 방문횟수가 올 수 도 있으므로 체크해줘야 된다.
                     visit[i] = min(visit[i], visit[now_n]+1)
                 else:
                     visit[i] = min(visit[i], visit[now_n])
