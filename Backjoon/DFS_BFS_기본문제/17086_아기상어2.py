@@ -40,7 +40,7 @@
 
 
 
-# 개선안
+# 코드 개선
 import sys
 from collections import deque
 
@@ -79,4 +79,3 @@ for a in range(n):
             find_max_safe(a, b)
 
 print(max_safe)
-
