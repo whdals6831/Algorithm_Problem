@@ -1,6 +1,12 @@
 n = int(input())
 scv = list(map(int, input().split()))
 scv = scv + [0]*(3-len(scv))
+scv.sort(reverse=True) 
+### 정렬시키는 이유 ###
+# 입력이 2 60 59일 때
+# a 부터 차례로 줄여가므로 
+# 0 51 53 같은 곳을 cnt가 많이 듦에도 먼저 방문해버리기 때문에
+# 뒤에 b-9 차례에서 이미 방문한 곳이라 판단하고 지나쳐버린다.
 result = float('inf')
 dp = [[[-1]*61 for _ in range(61)] for _ in range(61)]
 
@@ -13,8 +19,6 @@ def sol(cnt,a,b,c):
     a = a if a > 0 else 0
     b = b if b > 0 else 0
     c = c if c > 0 else 0
-
-    print(cnt, a, b, c)
 
     if a==0 and b==0 and c==0:
         result = min(result, cnt)
