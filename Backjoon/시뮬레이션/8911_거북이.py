@@ -5,12 +5,14 @@ commands = [stdin.readline().rstrip() for _ in range(t)]
 answer = []
 
 for command in commands:
-    visit = [[False]*1001 for _ in range(1001)]
+    visit_x = [False]*1001
+    visit_y = [False]*1001
     x = 500
     y = 500
     w = 0
     h = 0
-    visit[x][y] = True
+    visit_x[x] = True
+    visit_y[y] = True
     four_direction = {
         'up':True,
         'down':False,
@@ -19,17 +21,18 @@ for command in commands:
     }
 
     for d in command:
-        print(d, four_direction, x, y, w, h)
         if four_direction['up']:
             if d == 'F':
                 y += 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_y[y]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     h += 1
             if d == 'B':
                 y -= 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_y[y]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     h += 1
             if d == 'L':
                 four_direction['up'] = False
@@ -40,13 +43,15 @@ for command in commands:
         elif four_direction['down']:
             if d == 'F':
                 y -= 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_y[y]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     h += 1
             if d == 'B':
                 y += 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_y[y]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     h += 1
             if d == 'L':
                 four_direction['down'] = False
@@ -57,13 +62,15 @@ for command in commands:
         elif four_direction['left']:
             if d == 'F':
                 x -= 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_x[x]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     w += 1
             if d == 'B':
                 x += 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_x[x]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     w += 1
             if d == 'L':
                 four_direction['left'] = False
@@ -74,13 +81,15 @@ for command in commands:
         elif four_direction['right']:
             if d == 'F':
                 x += 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_x[x]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     w += 1
             if d == 'B':
                 x -= 1
-                if not visit[x][y]:
-                    visit[x][y] = True
+                if not visit_x[x]:
+                    visit_x[x] = True
+                    visit_y[y] = True
                     w += 1
             if d == 'L':
                 four_direction['right'] = False
