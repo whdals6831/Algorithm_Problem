@@ -23,8 +23,6 @@ function solution(lottos, win_nums) {
 
     answer.push(winning_grade[max_lotto]);    
     answer.push(winning_grade[min_lotto]);
-    console.log(answer);
+    
     return answer;
 }
-
-solution([44, 1, 0, 0, 31, 25],[31, 10, 45, 1, 6, 19]);
