@@ -5,7 +5,7 @@ sys.setrecursionlimit(10**6) # 재귀 깊이를 늘려줌
 
 a, b = map(int, input().split())
 
-def GCD(a, b):
+def GCD(a, b): # a >= b
     return GCD(b, a % b) if b else a
 
 def GCM(a, b, original_a, original_b):

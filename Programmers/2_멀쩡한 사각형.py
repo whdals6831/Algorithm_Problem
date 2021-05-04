@@ -1,24 +1,9 @@
-# W	H	result
-# 8	12	80
+def gcd(a, b):
+    return gcd(b, a%b) if b else a
 
 def solution(w,h):
-    answer = 0
+    return w * h - (w+h-gcd(w,h))
 
-    max_num = max(w, h)
-    min_num = min(w, h)
-    
-    remain_num = max_num // min_num
+# 우선 w와 h가 공약수가 있다면 문제를 공약수를 나눈 w' 와 h'로 축소시킬수있습니다.
 
-    if max_num == min_num:
-        answer = max_num
-    elif w == 1 or h == 1:
-        answer = max_num
-    elif remain_num == 1 and (min_num % 2 == 1):
-        answer = 2 * max_num - min_num
-    else:
-        answer = min_num * (remain_num + 1)
-
-    return w * h - answer
-
-if __name__ == "__main__":
-    print(solution(56, 2))
+# w'와 h'가 서로소라 가정했을때 대각선은 반대쪽 코너에 도달하기전 w'-1 세로선과 h'-1 가로선을 지나고 지날때마다 새로운 정사각형이 추가됩니다. 그래서 첫 정사각형을 포함 1 + (w'-1) + (h'-1) = w' + h' - 1개의 정사각형을 지나게 되므로 공약수를 다시 곱해주면 w + h - gcd(w,h)개의 정사각형을 지나는것을 찾을수있습니다.
