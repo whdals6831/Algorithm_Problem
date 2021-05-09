@@ -5,7 +5,7 @@ function solution(numbers) {
         var x = Number(String(a)+String(b));
         var y = Number(String(b)+String(a));
 
-        if (x < y) return 1; // return 값이 1 이면 x와 y를 바꾼다! 여기서는 오름차순
+        if (x < y) return 1; // return 값이 1 이면 x와 y를 바꾼다! 여기서는 내림차순
         if (x > y) return -1;
 
         return 0;
