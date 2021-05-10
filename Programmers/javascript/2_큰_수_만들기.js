@@ -1,31 +1,22 @@
 function solution(number, k) {
-    var answer = [];
+    let answer = '';
+    let arr = [];
+    let n = 0;
 
-    numList = number.split("").map(x => Number(x));
-    
-    var start = 0;
+    for (var i=0; i<number.length; i++) {
+        while (arr.length != 0) {
+            if (n == k) break; // 제거할 수가 채워지면 종료
 
-    for (var i=1; i<=k; i++) {
-        if (number[i] > number[start]) {
-            start = i;
+            if(arr[arr.length-1] < number[i]) {
+                n++;
+                arr.pop();
+            }
+            else break;
         }
+
+        arr.push(number[i]);
     }
 
-    answer.push(number[start]);
-    start++;
-
-    while (answer.length < number.length-k) {
-        if (answer[answer.length-1] < number[start]) {
-            
-        } 
-    }
-
-    console.log(start);
-
-
+    answer = arr.join("").substr(0, number.length-k);
     return answer;
 }
-
-solution("1924",2);
-solution("1231234",3);
-solution("4177252841",4);
