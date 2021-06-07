@@ -1,7 +1,8 @@
 function solution(citations) {
     var answer = 0;
+    var maxCitation = Math.max(...citations)
 
-    for (var i=0; i<=10000; i++) {
+    for (var i=0; i<=maxCitation; i++) {
         var quotationCnt = 0;
         var remainCnt = 0;
 
