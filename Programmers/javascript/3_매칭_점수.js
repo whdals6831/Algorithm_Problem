@@ -1,38 +1,62 @@
 function getContent(page) {
-    return page[3].substring(page[3].indexOf("content")+9, page[3].indexOf('com')+3);
+    let regex = '<meta property="og:url" content="\\S*';
+    let metaTag = page.match(regex)[0];
+    metaTag = metaTag.split(/content="|"\/>/);
+    return metaTag[1];
 }
 
-function getBody(page) {
-    let body = '';
+function getLink(page) {
     let link = [];
-    let start = page.indexOf('<body>');
-
-    for (let i=start+1; i<page.length-2; i++) {
-        if (page[i].indexOf('href') != -1) {
-            link.push(page[i]);
-        }
-        else {
-            body += page[i];
+    let temp = page.match(/<a href="\S*">/g);
+    if (temp) {
+        for (let aTag of temp) {
+            link.push(aTag.slice(9, aTag.length-2));
         }
     }
 
-    return [body, link];
+    return link;
 }
 
 function solution(word, pages) {
-    var answer = 0;
+    let website = new Map();
+    let index = 0;
 
     for (let page of pages) {
-        page = page.split('\n');
         let content = getContent(page);
-        let [body, link] = getBody(page);
+        let link = getLink(page);
+        let baseScore = 0;
+        page = page.split(/[^a-zA-Z]/g);
 
-        console.log(body);
-        console.log(link);
+        for (let searchText of page) {
+            if (searchText.toLowerCase() === word.toLowerCase()) {
+                baseScore++;
+            }
+        }
+
+        let outLinks = link.length;
+        let linkScore = outLinks != 0 ? baseScore/outLinks : 0;
+
+        website.set(content ,[index, baseScore, link, linkScore]);
+        index++;
     }
-    
 
-    return answer;
+    for (const [index, baseScore, link, linkScore] of website.values()) {
+        for (let site of link) {
+            if (website.has(site)) {
+                let value = website.get(site);
+                website.set(site, [value[0], value[1]+linkScore, value[2], value[3]]);
+            }
+        }
+    }
+
+    website = new Map([...website.entries()].sort((a,b) => {
+        if (a[1][1] > b[1][1]) return -1;
+        if (a[1][1] < b[1][1]) return 1;
+        if (a[1][0] > b[1][0]) return 1;
+        if (a[1][0] < b[1][0]) return -1;
+    }));
+    
+    return website.entries().next()['value'][1][0];
 }
 
-solution('blind', ["<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://a.com\"/>\n</head>  \n<body>\nBlind Lorem Blind ipsum dolor Blind test sit amet, consectetur adipiscing elit. \n<a href=\"https://b.com\"> Link to b </a>\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://b.com\"/>\n</head>  \n<body>\nSuspendisse potenti. Vivamus venenatis tellus non turpis bibendum, \n<a href=\"https://a.com\"> Link to a </a>\nblind sed congue urna varius. Suspendisse feugiat nisl ligula, quis malesuada felis hendrerit ut.\n<a href=\"https://c.com\"> Link to c </a>\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://c.com\"/>\n</head>  \n<body>\nUt condimentum urna at felis sodales rutrum. Sed dapibus cursus diam, non interdum nulla tempor nec. Phasellus rutrum enim at orci consectetu blind\n<a href=\"https://a.com\"> Link to a </a>\n</body>\n</html>"]);
+solution('Muzi',["<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://careers.kakao.com/interview/list\"/>\n</head>  \n<body>\n<a href=\"https://programmers.co.kr/learn/courses/4673\"></a>#!MuziMuzi!)jayg07con&&\n\n</body>\n</html>", "<html lang=\"ko\" xml:lang=\"ko\" xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta property=\"og:url\" content=\"https://www.kakaocorp.com\"/>\n</head>  \n<body>\ncon%\tmuzI92apeach&2<a href=\"https://hashcode.co.kr/tos\"></a>\n\n\t^\n</body>\n</html>"]);
